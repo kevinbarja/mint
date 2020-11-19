@@ -1,0 +1,110 @@
+<configuration>
+    <springProfile name="dev">
+        <springProperty name="spring.datasource.driverClassName" source="spring.datasource.driverClassName"/>
+        <springProperty name="spring.datasource.url" source="spring.datasource.url"/>
+        <springProperty name="spring.datasource.username" source="spring.datasource.username"/>
+        <springProperty name="spring.datasource.password" source="spring.datasource.password"/>
+
+        <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>./logs/mint-dev.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <cleanHistoryOnStart>false</cleanHistoryOnStart>
+                <fileNamePattern>./logs/mint-dev-%d{dd-MM-yy}.%i.log</fileNamePattern>
+                <maxFileSize>1024MB</maxFileSize>
+                <maxHistory>30</maxHistory>
+                <totalSizeCap>30GB</totalSizeCap>
+            </rollingPolicy>
+            <encoder>
+                <pattern>%d{dd/MM/yy HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>
+            </encoder>
+        </appender>
+
+        <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{dd/MM/yy HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>
+            </encoder>
+        </appender>
+        <appender name="db" class="ch.qos.logback.classic.db.DBAppender">
+            <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+                <driverClass>org.postgresql.Driver</driverClass>
+                <url>${spring.datasource.url}</url>
+                <user>${spring.datasource.username}</user>
+                <password>${spring.datasource.password}</password>
+            </connectionSource>
+        </appender>
+
+        <logger name="org.apache.catalina.startup.DigesterFactory" level="ERROR"/>
+        <logger name="org.apache.catalina.util.LifecycleBase" level="ERROR"/>
+        <logger name="org.apache.coyote.http11.Http11NioProtocol" level="WARN"/>
+        <logger name="org.apache.sshd.common.util.SecurityUtils" level="WARN"/>
+        <logger name="org.apache.tomcat.util.net.NioSelectorPool" level="WARN"/>
+        <logger name="org.eclipse.jetty.util.component.AbstractLifeCycle" level="ERROR"/>
+        <logger name="org.hibernate.validator.internal.util.Version" level="WARN"/>
+        <logger name="org.springframework.boot.actuate.endpoint.jmx" level="WARN"/>
+
+        <logger name="org.springframework.web" level="ERROR"/>
+        <logger name="org.hibernate.SQL" level="ERROR"/>
+        <logger name="com.sintesis.mint" level="INFO"/>
+        <root level="INFO">
+            <appender-ref ref="stdout" />
+            <appender-ref ref="file" />
+            <appender-ref ref="db" />
+        </root>
+    </springProfile>
+
+
+    <springProfile name="prod">
+
+        <springProperty name="spring.datasource.driverClassName" source="spring.datasource.driverClassName"/>
+        <springProperty name="spring.datasource.url" source="spring.datasource.url"/>
+        <springProperty name="spring.datasource.username" source="spring.datasource.username"/>
+        <springProperty name="spring.datasource.password" source="spring.datasource.password"/>
+
+
+        <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>./logs/mint-prod.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <cleanHistoryOnStart>false</cleanHistoryOnStart>
+                <fileNamePattern>./logs/mint-prod-%d{dd-MM-yy}.%i.log</fileNamePattern>
+                <maxFileSize>1024MB</maxFileSize>
+                <maxHistory>30</maxHistory>
+                <totalSizeCap>30GB</totalSizeCap>
+            </rollingPolicy>
+            <encoder>
+                <pattern>%d{dd/MM/yy HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>
+            </encoder>
+        </appender>
+
+        <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{dd/MM/yy HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>
+            </encoder>
+        </appender>
+        <appender name="db" class="ch.qos.logback.classic.db.DBAppender">
+            <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+                <driverClass>org.postgresql.Driver</driverClass>
+                <url>${spring.datasource.url}</url>
+                <user>${spring.datasource.username}</user>
+                <password>${spring.datasource.password}</password>
+            </connectionSource>
+        </appender>
+
+        <logger name="org.apache.catalina.startup.DigesterFactory" level="ERROR"/>
+        <logger name="org.apache.catalina.util.LifecycleBase" level="ERROR"/>
+        <logger name="org.apache.coyote.http11.Http11NioProtocol" level="WARN"/>
+        <logger name="org.apache.sshd.common.util.SecurityUtils" level="WARN"/>
+        <logger name="org.apache.tomcat.util.net.NioSelectorPool" level="WARN"/>
+        <logger name="org.eclipse.jetty.util.component.AbstractLifeCycle" level="ERROR"/>
+        <logger name="org.hibernate.validator.internal.util.Version" level="WARN"/>
+        <logger name="org.springframework.boot.actuate.endpoint.jmx" level="WARN"/>
+
+        <logger name="org.springframework.web" level="ERROR"/>
+        <logger name="org.hibernate.SQL" level="ERROR"/>
+        <logger name="com.sintesis.mint" level="DEBUG"/>
+        <root level="ERROR">
+            <appender-ref ref="stdout" />
+            <appender-ref ref="file" />
+            <appender-ref ref="db" />
+        </root>
+    </springProfile>
+</configuration>

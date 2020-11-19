@@ -1,0 +1,23 @@
+version: '3'
+services:
+  mint:
+    image: registry.gitlab.com/kevinbh/mint/mint-api-0.1.5:latest
+    expose:
+      - "8087"
+    ports:
+      - "8087:8080"
+    depends_on:
+      - "database"
+    volumes:
+      - ./application-dev.properties:/application.properties
+      - ./logs:/logs
+      - ./logback-spring.xml:/logback-spring.xml
+  database:
+    image: "postgres" # use latest official postgres version
+    env_file:
+      - database.env # configure postgres
+    volumes:
+      - database-data:/var/lib/postgresql/data/ ## persist data even if container shuts down
+volumes:
+  database-data: # named volumes can be managed easier using docker-compose
+
